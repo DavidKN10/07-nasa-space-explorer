@@ -6,16 +6,24 @@
 }
 
 /* Base page styles */
+html, body {
+  height: 100%;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   background-color: #f1f1f1;
-  padding: 20px;
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Centered container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  flex: 1 0 auto;
 }
 
 /* Header */
@@ -26,12 +34,16 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
   margin-bottom: 20px;
+  background: #111;
+  color: #fff;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
 }
 
 h1 {
-  font-family: Verdana, sans-serif;
+  font-family: Helvetica, Verdana, Arial, sans-serif;
   font-weight: bold;
-  color: #212121;
+  color: #fff;           /* White text */
 }
 
 /* Logo */
@@ -53,7 +65,7 @@ h1 {
 /* Inputs and buttons */
 input[type="date"],
 button {
-  font-family: Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-weight: normal;
   color: #666;
   padding: 10px 15px;
@@ -108,6 +120,7 @@ button:hover {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s ease; /* Smooth scaling transition for the card */
 }
 
 /* Three columns on wider screens */
@@ -122,6 +135,13 @@ button:hover {
   height: 200px;
   object-fit: cover;
   border-radius: 4px;
+  /* Remove transition from img, it's now on the card */
+}
+
+/* Scale up the card smoothly and change cursor when hovered */
+.gallery-item:hover {
+  transform: scale(1.07);
+  cursor: pointer;
 }
 
 .gallery-item p {
@@ -213,4 +233,42 @@ button:hover {
 
 .modal-close:hover {
   color: #212121;
+}
+
+/* Did You Know? section */
+.space-fact {
+  background: #e3f0ff;
+  color: #105bd8;
+  font-size: 1.1em;
+  font-style: italic;
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 0 0 18px 0;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(16,91,216,0.07);
+}
+
+/* Footer styles */
+.site-footer {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 40px;
+  padding: 18px 0 18px 0;
+  text-align: center;
+  color: #fff;
+  background: #111;
+  font-size: 1em;
+  flex-shrink: 0;
+  position: relative;
+  bottom: 0;
+}
+
+.site-footer a {
+  color: #aad1ff;
+  text-decoration: none;
+  margin: 0 6px;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
 }

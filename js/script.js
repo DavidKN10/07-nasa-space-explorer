@@ -134,3 +134,26 @@ getImagesButton.addEventListener('click', () => {
       gallery.innerHTML = '<p>Sorry, something went wrong. Please try again.</p>';
     });
 });
+
+// Array of placeholder "Did You Know?" space facts
+const spaceFacts = [
+  "It takes our solar system about 230 million years to complete one orbit around the galactic center.",
+  "Space is completely silent. There is no air or atmosphere in space. Since it is a vacuum, sound waves will have no medium to travel to.",
+  "When you look at a star, what you actually see is how it was in the past. Light takes time to reach Earth. The bright star, Sirius, for example, is roughly 8.6 light-years away. That means when you see it in the sky tonight, you are actually seeing Sirius the way it was 8.6 years ago!",
+  "Hailey's Comet won't orbit past Earth again until 2061.",
+  "There are about 2 trillion galaxies in the observable universe."
+];
+
+// Function to show a random space fact
+function showRandomSpaceFact() {
+  // Pick a random index from the array
+  const randomIndex = Math.floor(Math.random() * spaceFacts.length);
+  // Get the fact
+  const fact = spaceFacts[randomIndex];
+  // Find the space fact section and display the fact
+  const factDiv = document.getElementById('space-fact');
+  factDiv.textContent = `Did You Know? ${fact}`;
+}
+
+// Show a random fact when the app loads
+showRandomSpaceFact();
