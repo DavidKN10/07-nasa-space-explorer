@@ -16,6 +16,54 @@ const getImagesButton = document.querySelector('button');
 // Find the gallery container on the page
 const gallery = document.getElementById('gallery');
 
+// Create a modal element and add it to the page (hidden by default)
+const modal = document.createElement('div');
+modal.id = 'image-modal';
+modal.style.display = 'none'; // Hide modal initially
+modal.innerHTML = `
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <br>
+    <img class="modal-img" src="" alt="">
+    <h2 class="modal-title"></h2>
+    <p class="modal-date"></p>
+    <p class="modal-explanation"></p>
+  </div>
+`;
+document.body.appendChild(modal);
+
+// Get modal elements for later use
+const modalImg = modal.querySelector('.modal-img');
+const modalTitle = modal.querySelector('.modal-title');
+const modalDate = modal.querySelector('.modal-date');
+const modalExplanation = modal.querySelector('.modal-explanation');
+const modalClose = modal.querySelector('.modal-close');
+
+// Function to open the modal with image data
+function openModal(item) {
+  modalImg.src = item.hdurl || item.url; // Use HD image if available
+  modalImg.alt = item.title;
+  modalTitle.textContent = item.title;
+  modalDate.textContent = `Date: ${item.date}`;
+  modalExplanation.textContent = item.explanation;
+  modal.style.display = 'flex';
+}
+
+// Function to close the modal
+function closeModal() {
+  modal.style.display = 'none';
+}
+
+// Close modal when clicking the close button
+modalClose.addEventListener('click', closeModal);
+
+// Close modal when clicking outside the modal content
+modal.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    closeModal();
+  }
+});
+
 // Add a click event listener to the button
 getImagesButton.addEventListener('click', () => {
   // Get the selected start and end dates from the inputs
@@ -23,14 +71,16 @@ getImagesButton.addEventListener('click', () => {
   const endDate = endInput.value;
 
   // Build the API URL with the selected date range
-  // We use &start_date= and &end_date= to get images for multiple days
   const url = `${api}&start_date=${startDate}&end_date=${endDate}`;
+
+  // Show a loading message before fetching data
+  gallery.innerHTML = '<p>Loading images, please wait...</p>';
 
   // Fetch data from NASA's API
   fetch(url)
     .then(response => response.json()) // Convert the response to JSON
     .then(data => {
-      // Remove the placeholder content
+      // Remove the loading message and show the gallery
       gallery.innerHTML = '';
 
       // Check if we got an array (multiple days) or a single object (one day)
@@ -59,8 +109,14 @@ getImagesButton.addEventListener('click', () => {
 
           // Add image, title, and date to the card
           card.appendChild(img);
+          card.appendChild(document.createElement("br"));   // <br> spacing between img and title
           card.appendChild(title);
           card.appendChild(date);
+
+          // When the card is clicked, open the modal with this item's data
+          card.addEventListener('click', () => {
+            openModal(item);
+          });
 
           // Add the card to the gallery
           gallery.appendChild(card);
